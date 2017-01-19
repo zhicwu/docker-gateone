@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  gateone:
+    build: .
+    image: zhicwu/gateone${IMAGE_TAG}
+    container_name: ${CONTAINER_NAME}
+    command: gateone
+    ports:
+      - "${SERVER_PORT}:10443"
+    volumes:
+      - ./data:/gateone/.gateone:rw
+    environment:
+      HOST_USER_ID: ${HOST_USER_ID}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+    restart: always
