@@ -30,7 +30,7 @@ ENV GATEONE_HOME=/gateone GATEONE_USER=gateone GATEONE_VERSION=2016
 RUN apt-get update --fix-missing && apt-get -y upgrade
 
 # Install dependencies
-RUN apt-get -y install python-pip python-imaging python-setuptools \
+RUN apt-get -y install dtach python-pip python-imaging python-setuptools \
 	python-mutagen python-pam python-dev git telnet openssh-client \
 	&& apt-get -y clean \
 	&& apt-get -q -y autoremove \

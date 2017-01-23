@@ -35,7 +35,11 @@ init() {
 		do
 			wait $job || echo "Faild to wait job $job."
 		done
+		echo "Setup configuration..."
 		./venv/bin/gateone --configure
+		sed -i -e 's|\("disable_ssl":\) .*|\1 true,|' /etc/gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("uid":\) .*|\1 '`id -u $GATEONE_USER`',|' /etc/gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("uid":\) .*|\1 '`id -u $GATEONE_USER`',|' /etc/gateone/conf.d/60docker.conf
 		chown -R $GATEONE_USER $GATEONE_HOME
 	fi
 }
