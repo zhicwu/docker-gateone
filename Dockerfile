@@ -38,10 +38,11 @@ RUN apt-get -y install dtach python-pip python-imaging python-setuptools \
 	&& pip install --upgrade futures tornado cssmin slimit psutil virtualenv \
 	&& rm -rf /var/lib/apt/lists/* ~/.cache
 
-# Download and install GateOne
+# Download, install and patch
 RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single-branch $GATEONE_HOME \
 	&& (find . -name "*.htm?" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' || true) \
 	&& (find . -name "*.js" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' || true) \
+	&& (find . -name "ssh_connect.py" | xargs sed -i -e 's|\(            args.insert(3, "-i%s" % identity)\)|            if not os.path.normpath(identity).startswith(users_ssh_dir):\n                continue\n\1|' || true) \
 	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port
