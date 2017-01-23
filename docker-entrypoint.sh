@@ -47,7 +47,8 @@ if [ "$1" = 'gateone' ]; then
 	init
 
 	# now start GateOne
-	exec /sbin/setuser $GATEONE_USER /gateone/venv/bin/gateone
+	echo "Starting GateOne..."
+	exec /sbin/setuser $GATEONE_USER /gateone/venv/bin/gateone > /dev/null 2>&1
 fi
 
 exec "$@"
