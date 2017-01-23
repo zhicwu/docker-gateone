@@ -38,7 +38,7 @@ init() {
 		done
 		
 		sed -i -e 's|\("url_prefix":\) .*|\1 "'"$URL_PREFIX"'",|' /$GATEONE_HOME/.gateone/conf.d/10server.conf \
-			&& sed -i -e "s|--sshfp|-a '-oStrictHostKeychecking=no'|" /$GATEONE_HOME/.gateone/conf.d/50terminal.conf
+			&& sed -i -e "s|--sshfp -a '|-a '-oStrictHostKeychecking=no |" /$GATEONE_HOME/.gateone/conf.d/50terminal.conf
 	fi
 }
 
