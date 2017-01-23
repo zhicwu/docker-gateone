@@ -7,13 +7,14 @@ services:
     container_name: ${CONTAINER_NAME}
     command: gateone
     ports:
-      - "${SERVER_PORT}:10443"
+      - "${SERVER_PORT}:8000"
     volumes:
       - ./data/cache:/gateone/.cache:rw
       - ./data/logs:/gateone/.gateone/logs:rw
       - ./data/sessions:/gateone/.gateone/sessions:rw
     environment:
       HOST_USER_ID: ${HOST_USER_ID}
+      URL_PREFIX: /ssh/
     ulimits:
       nproc: 65535
       nofile:

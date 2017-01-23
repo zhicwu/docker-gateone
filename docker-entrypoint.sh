@@ -2,6 +2,7 @@
 set -e
 
 : ${HOST_USER_ID:=""}
+: ${URL_PREFIX:="/"}
 
 fix_permission() {
 	echo "Fixing permissions..."
@@ -35,9 +36,8 @@ init() {
 		do
 			wait $job || echo "Faild to wait job $job."
 		done
-
-		cp $GATEONE_HOME/docker/60docker.conf $GATEONE_HOME/.gateone/conf.d/60docker.conf
-		chown -R $GATEONE_USER $GATEONE_HOME
+		
+		sed -i -e 's|\("url_prefix":\) .*|\1 "'"$URL_PREFIX"'",|' /$GATEONE_HOME/.gateone/conf.d/10server.conf
 	fi
 }
 
@@ -47,7 +47,7 @@ if [ "$1" = 'gateone' ]; then
 	init
 
 	# now start GateOne
-	exec /sbin/setuser $GATEONE_USER /gateone/venv/bin/gateone --log_file_prefix=$GATEONE_HOME/logs/gateone.log
+	exec /sbin/setuser $GATEONE_USER /gateone/venv/bin/gateone
 fi
 
 exec "$@"
