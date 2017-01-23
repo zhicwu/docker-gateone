@@ -9,7 +9,9 @@ services:
     ports:
       - "${SERVER_PORT}:10443"
     volumes:
-      - ./data:/gateone/.gateone:rw
+      - ./data/cache:/gateone/.cache:rw
+      - ./data/logs:/gateone/.gateone/logs:rw
+      - ./data/sessions:/gateone/.gateone/sessions:rw
     environment:
       HOST_USER_ID: ${HOST_USER_ID}
     ulimits:

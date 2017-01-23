@@ -34,27 +34,19 @@ RUN apt-get -y install dtach python-pip python-imaging python-setuptools \
 	python-mutagen python-pam python-dev git telnet openssh-client \
 	&& apt-get -y clean \
 	&& apt-get -q -y autoremove \
-	&& rm -rf /var/lib/apt/lists/* \
 	&& pip install --upgrade pip \
-	&& pip install --upgrade futures tornado cssmin slimit psutil virtualenv
+	&& pip install --upgrade futures tornado cssmin slimit psutil virtualenv \
+	&& rm -rf /var/lib/apt/lists/* ~/.cache
 
 # Download and install GateOne
 RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single-branch $GATEONE_HOME \
-	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER \
-	&& cd $GATEONE_HOME \
-	&& mkdir -p logs users /etc/gateone/conf.d /etc/gateone/ssl \
-	&& cp docker/update_and_run_gateone.py /usr/local/bin/update_and_run_gateone \
-	&& cp docker/60docker.conf /etc/gateone/conf.d/60docker.conf \
-	&& sed -i -e 's|/gateone/GateOne|'"$GATEONE_HOME"'|' /usr/local/bin/update_and_run_gateone \
-	&& sed -i -e "s|'/usr/bin/|'$GATEONE_HOME/venv/bin/|" /usr/local/bin/update_and_run_gateone \
-	&& sed -i -e "s|'/usr/local/bin/|'$GATEONE_HOME/venv/bin/|" /usr/local/bin/update_and_run_gateone \
-	&& cd -
+	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port
 WORKDIR $GATEONE_HOME
 EXPOSE 8000
 
-# Add entry point
+# Add entry point and installation script
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY install_gateone.sh ./install_gateone.sh
 RUN chmod +x /docker-entrypoint.sh ./install_gateone.sh
