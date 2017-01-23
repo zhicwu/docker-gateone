@@ -40,8 +40,8 @@ RUN apt-get -y install dtach python-pip python-imaging python-setuptools \
 
 # Download and install GateOne
 RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single-branch $GATEONE_HOME \
-	&& find . -name "*.htm?" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' \
-	&& find . -name "*.js" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' \
+	&& (find . -name "*.htm?" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' || true) \
+	&& (find . -name "*.js" | xargs sed -i -e 's|.google-analytics.com/|.localhost/|' || true) \
 	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port
