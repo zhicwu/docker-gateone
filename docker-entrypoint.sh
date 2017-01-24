@@ -2,6 +2,7 @@
 set -e
 
 : ${HOST_USER_ID:=""}
+: ${URL_PREFIX:="/"}
 
 fix_permission() {
 	echo "Fixing permissions..."
@@ -35,8 +36,11 @@ init() {
 		do
 			wait $job || echo "Faild to wait job $job."
 		done
-		./venv/bin/gateone --configure
-		chown -R $GATEONE_USER $GATEONE_HOME
+		
+		sed -i -e 's|\("url_prefix":\) .*|\1 "'"$URL_PREFIX"'",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("js_init":\) .*|\1 "{'"'theme': 'white'"'}",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("user_dir":\) .*|\1 "'"$GATEONE_HOME"'/.gateone/users",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e "s|--sshfp -a '|-a '-oStrictHostKeychecking=no |" $GATEONE_HOME/.gateone/conf.d/50terminal.conf
 	fi
 }
 
@@ -46,7 +50,8 @@ if [ "$1" = 'gateone' ]; then
 	init
 
 	# now start GateOne
-	exec /sbin/setuser $GATEONE_USER /usr/local/bin/update_and_run_gateone --log_file_prefix=$GATEONE_HOME/logs/gateone.log
+	echo "Starting GateOne..."
+	exec /sbin/setuser $GATEONE_USER /gateone/venv/bin/gateone > /dev/null 2>&1
 fi
 
 exec "$@"
