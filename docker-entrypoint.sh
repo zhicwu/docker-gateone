@@ -37,9 +37,10 @@ init() {
 			wait $job || echo "Faild to wait job $job."
 		done
 		
-		sed -i -e 's|\("url_prefix":\) .*|\1 "'"$URL_PREFIX"'",|' /$GATEONE_HOME/.gateone/conf.d/10server.conf \
-			&& sed -i -e 's|\("js_init":\) .*|\1 "{'"'theme': 'white'"'}",|' /$GATEONE_HOME/.gateone/conf.d/10server.conf \
-			&& sed -i -e "s|--sshfp -a '|-a '-oStrictHostKeychecking=no |" /$GATEONE_HOME/.gateone/conf.d/50terminal.conf
+		sed -i -e 's|\("url_prefix":\) .*|\1 "'"$URL_PREFIX"'",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("js_init":\) .*|\1 "{'"'theme': 'white'"'}",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e 's|\("user_dir":\) .*|\1 "'"$GATEONE_HOME"'/.gateone/users",|' $GATEONE_HOME/.gateone/conf.d/10server.conf \
+			&& sed -i -e "s|--sshfp -a '|-a '-oStrictHostKeychecking=no |" $GATEONE_HOME/.gateone/conf.d/50terminal.conf
 	fi
 }
 

@@ -12,6 +12,7 @@ services:
       - ./data/cache:/gateone/.cache:rw
       - ./data/logs:/gateone/.gateone/logs:rw
       - ./data/sessions:/gateone/.gateone/sessions:rw
+      - ./data/users:/gateone/.gateone/users:rw
     environment:
       HOST_USER_ID: ${HOST_USER_ID}
       URL_PREFIX: /ssh/
