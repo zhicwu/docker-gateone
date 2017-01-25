@@ -49,6 +49,7 @@ RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single
 	&& (find . -name "bookmarks.py" | xargs sed -i -e "s|\(        if not os.path.exists(self.bookmarks_path):\)|\1\n            shared_bookmarks = os.path.join(self.user_dir, '../bookmarks.json')\n            if os.path.isfile(shared_bookmarks):\n                shutil.copyfile(shared_bookmarks, self.bookmarks_path)\n\1|" || true) \
 	&& (find . -name "bookmarks.js" | xargs sed -i -e "s|            bmSearch.onchange |            bmSearch.onpropertychange = bmSearch.oninput |" || true) \
 	&& (find . -name "server.py" | xargs sed -i -e "s|\(            if user\['upn'\] != 'ANONYMOUS':\)|# \1\n            if len(user['upn']) == 0:|" || true) \
+	&& (find . -name "server.py" | xargs sed -i -e 's|\(        ssl_options=ssl_options\)|\1, xheaders=True|' || true) \
 	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port
