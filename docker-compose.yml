@@ -9,13 +9,18 @@ services:
     ports:
       - "${SERVER_PORT}:8000"
     volumes:
-      - ./data/cache:/gateone/.cache:rw
+      - ./bookmarks.json:/gateone/.gateone/bookmarks.json:rw
+      - ./data/cache:/gateone/.gateone/cache:rw
       - ./data/logs:/gateone/.gateone/logs:rw
       - ./data/sessions:/gateone/.gateone/sessions:rw
       - ./data/users:/gateone/.gateone/users:rw
     environment:
       HOST_USER_ID: ${HOST_USER_ID}
       URL_PREFIX: /ssh/
+      COOKIE_SECRET: ${COOKIE_SECRET}
+      MAX_LOG_SIZE: ${MAX_LOG_SIZE}
+      MAX_LOG_BACKUPS: ${MAX_LOG_BACKUPS}
+      SESSION_TIMEOUT: ${SESSION_TIMEOUT}
     ulimits:
       nproc: 65535
       nofile:

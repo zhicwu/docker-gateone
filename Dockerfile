@@ -47,7 +47,10 @@ RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single
 	&& (find . -name "authentication.py" | xargs sed -i -e "s|\(        user = {'upn': 'ANONYMOUS'}\)|\1\n        basic_auth = self.request.headers.get('Authorization', '').replace('Basic', '').strip()\n        if len(basic_auth) > 0:\n            user['upn'] = base64.b64decode(basic_auth).split(':', 1)[0]|" || true) \
 	&& (find . -name "bookmarks.py" | xargs sed -i -e 's|\(import os, sys, time, json, socket\)|\1, shutil|' || true) \
 	&& (find . -name "bookmarks.py" | xargs sed -i -e "s|\(        if not os.path.exists(self.bookmarks_path):\)|\1\n            shared_bookmarks = os.path.join(self.user_dir, '../bookmarks.json')\n            if os.path.isfile(shared_bookmarks):\n                shutil.copyfile(shared_bookmarks, self.bookmarks_path)\n\1|" || true) \
+	&& (find . -name "bookmarks.js" | xargs sed -i -e "s|            bmSearch.onchange |            bmSearch.onpropertychange = bmSearch.oninput |" || true) \
 	&& (find . -name "server.py" | xargs sed -i -e "s|\(            if user\['upn'\] != 'ANONYMOUS':\)|# \1\n            if len(user['upn']) == 0:|" || true) \
+	&& (find . -name "server.py" | xargs sed -i -e 's|\(        ssl_options=ssl_options\)|\1, xheaders=True|' || true) \
+	&& (find . -name "terminal.js" | xargs sed -i -e 's|\(buttonContainer.appendChild(newShareID);\)|// \1|' || true) \
 	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port

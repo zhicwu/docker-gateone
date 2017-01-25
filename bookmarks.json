@@ -1,0 +1,47 @@
+[{
+	"updated": 1384993598505,
+	"name": "test@my.test.server",
+	"created": 1384993598505,
+	"url": "ssh://test:test@my.test.server/",
+	"notes": "",
+	"tags": ["Test",
+	"Demo",
+	"Broken"],
+	"visits": 0,
+	"updateSequenceNum": 1,
+	"images": {
+		"favicon": null
+	}
+},
+{
+	"updated": 1384993598505,
+	"name": "my.test.server",
+	"created": 1384993598505,
+	"url": "http://my.test.server/",
+	"notes": "",
+	"tags": ["Test",
+	"Demo",
+	"Web",
+	"Broken"],
+	"visits": 0,
+	"updateSequenceNum": 1,
+	"images": {
+		"favicon": null
+	}
+},
+{
+	"updated": 1384993598505,
+	"name": "admin@my.test.server",
+	"created": 1384993598505,
+	"url": "mailto:admin@my.test.server",
+	"notes": "",
+	"tags": ["Test",
+	"Demo",
+	"Mail",
+	"Broken"],
+	"visits": 0,
+	"updateSequenceNum": 1,
+	"images": {
+		"favicon": null
+	}
+}]
