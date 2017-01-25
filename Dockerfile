@@ -50,6 +50,7 @@ RUN git clone https://github.com/zhicwu/GateOne.git -b $GATEONE_VERSION --single
 	&& (find . -name "bookmarks.js" | xargs sed -i -e "s|            bmSearch.onchange |            bmSearch.onpropertychange = bmSearch.oninput |" || true) \
 	&& (find . -name "server.py" | xargs sed -i -e "s|\(            if user\['upn'\] != 'ANONYMOUS':\)|# \1\n            if len(user['upn']) == 0:|" || true) \
 	&& (find . -name "server.py" | xargs sed -i -e 's|\(        ssl_options=ssl_options\)|\1, xheaders=True|' || true) \
+	&& (find . -name "terminal.js" | xargs sed -i -e 's|\(buttonContainer.appendChild(newShareID);\)|// \1|' || true) \
 	&& useradd -Md $GATEONE_HOME -s /bin/bash $GATEONE_USER
 
 # Change work directory and expose port
